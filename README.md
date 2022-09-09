@@ -29,7 +29,9 @@ The raw uassets will be added to `BinaryData` when the spaghetto inside is no lo
 ## Compatibility
 
 **UE4.22 and below** - supported, but requires backport.
+
 **UE4.23 - UE 5.1** - supported
+
 [`NM_Standalone` builds only! `NM_client` functionality will be limited or broken for obvious reasons]
 
 ModManager only requires so that the game read and mounts custom PAKs or IOstore files properly. As long as this is valid it should work.
@@ -56,7 +58,7 @@ This mode also used for manual (as in - manual by MM tool) PAK-based mods detect
 7. (Optional) If `ModConfPAK` mod discovery method is used, game **ALWAYS** must be started via `Modmanager.exe`
 
 
-####Unattended
+#### Unattended
 
 1. Copy ABPML pak file provided by modding community  into `<your_game_path>\GameName\Content\Paks\`
 2. That's all.
@@ -66,7 +68,9 @@ This mode also used for manual (as in - manual by MM tool) PAK-based mods detect
 Mods spawned automatically according to their config rules.
 
 **Shift+F2** to summon basic UI (WIP)
+
 **=** to close UI (or used button)
+
 **crn.quality 1** - use this console command if game has input locked to UI (requires `bSpawnConsole=True` if supported)
 
 ### Creating compatible mods
@@ -109,52 +113,68 @@ ABPML supports (or plans to) few types of mod loading:
 ### Events
 
 **[OnWorldObjectChanged]**
+
 Fires when underlying UWorld object has changed i.e. when old World is destroyed and new on loaded. This method is default fallback when others aren't reliable.
 
 **[OnActorEndPlay]**
+
 Most useful for persistent UserWidget mods to get EndOfPlay events, so they dont have to fabricate their own dummy actor.
 
 **[OnEngineEOFNewWorld]**
+
 When available, if runtime restrictions allow, fired right at the end of Engine's Tick, just after new UWorld was created but hasnt ticked yet.
 
 **[OnLevelRemovedFromWorld]**
 **[OnLevelAddedToWorld]**
 **[OnMultiLevelLoad]**
+
 Fired when new level is added to World's level list, loaded and visible. Tracking these could be expensive, so the option is disabled by default. Resolution check: 1 second (configurable)
 
 ### ModConfig
+
 **ModToLoad**
+
 SoftClassObjectReference to your mod.
 
 **ShortName**
+
 Short name of your mod, used in Manager UI
 
 **LongName**
+
 Unused for now, but worth filling in.
 
 **Author**
 **Description**
+
 Shows in pop-up window.
 
 **OnlySpawnOnLevel**
+
 Level name (short) that is used to check against when spawning your mod, i.e. if you wan to spawn only on `TitleMap` level, specify this string. Leave empty or `Any` to respawn on every level.
 
 **Version**
+
 We use default Engine's `Intvector` struct as a semver alternative. Long story short, UserDefinedStruct absolutely unreliable so we have to improvise. `X` - major, `Y` - minor, `Z` - changeset/patch
 
 **bIsPersistent**
+
 Defines if the mod is persistent. This mean it will be spawned **only once** and added to KeepAlive list to survive PersistentLevel reloads. **This only applies to UserWidget-based mods!** Actor ALWAYS will be destroyed, there is **NO** bypassing it via BP. ABPML will ignore Actors.
 
 **bOneShot**
+
 Defines if mod is spawned only once in lifetime.
 
 **bDisabledByDefault**
+
 Disabled spawn by default (i.e. when you only want to spawn it via UI)
 
 **bIsAsyncLoad**
+
 Reserved for future use.
 
 ### Manager's config (ABPML config)
+
 todo
 ```
 [/Engine/ABPML/Public/O_ABPML_Settings.O_ABPML_Settings_C]
