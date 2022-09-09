@@ -9,7 +9,7 @@ ABPML strives to provides:
 * some basic-events via EventManager like PersistentLevel changed, new streamed/instanced level loaded and visible, etc.
 * persistent mods (widgets)
 * persistent data for mods to store
-* in-based config for mods, if desired
+* ini-based config for mods, if desired
 * mod spawn rules
 
 ## Downloads
