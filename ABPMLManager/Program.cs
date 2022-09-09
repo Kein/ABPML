@@ -18,11 +18,11 @@ namespace ABPMLManager
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-#if DEBUG
-            var appPath = @"e:\Games\Endling\test\";
-#else
             var appPath = System.AppContext.BaseDirectory;
-#endif
+            #if DEBUG
+            appPath = @"e:\Games\Endling\test\";
+            #endif
+
             string rootPath = PathTools.DirectoryGoUp(appPath).ToString();
             Debug.Assert(appPath != rootPath);
 
@@ -39,12 +39,15 @@ namespace ABPMLManager
                 {
                     ABPMLini = new ConfigIni(rootPath, ABPML_INI);
                     ABPMLini.Populate();
+
                     if (ABPMLini.TryGetSection(ABPML_SECTION, out List<IniKeyValue>? values)
-                        && ReflectionHelper.IniSectionToObject<ABPMLSettings>(values, out ABPMLSettings abpmlInst)
-                        && ABPMLini.TryGetSection(MANAGER_SECTION, out values)
-                        && ReflectionHelper.IniSectionToObject<ManagerSettings>(values, out ManagerSettings managerInst))
+                        && ReflectionHelper.IniSectionToObject<ABPMLSettings>(values, out ABPMLSettings abpmlInst))
                     {
                         ABPMLConf = abpmlInst;
+                    }
+                    if (ABPMLini.TryGetSection(MANAGER_SECTION, out values)
+                        && ReflectionHelper.IniSectionToObject<ManagerSettings>(values, out ManagerSettings managerInst))
+                    {
                         ManagerConf = managerInst;
                         isConfigValid = true;
                     }
